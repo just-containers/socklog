@@ -1,0 +1,179 @@
+.TH socklog 8
+.SH NAME
+socklog \- small and secure syslogd replacement for use with runit
+.SH SYNOPSIS
+.B socklog
+[\-rRU]
+[unix]
+.RI [ path\fR]
+.br
+.B socklog
+[\-rR]
+inet
+.RI [ ip\fR]
+.RI [ port\fR]
+.br
+.B socklog
+[\-rR]
+ucspi
+.RI [ args\fR]
+.SH DESCRIPTION
+.B socklog
+is run under runit's
+.BR runsv (8),
+writing syslog messages it receives from unix domain socket
+.I path
+or an inet udp socket
+.I ip\fR:\fIport\fR
+through a pipe provided by
+.BR runsv (8)
+to a
+.BR svlogd (8)
+process.
+.LP
+.B socklog
+can be run as an ucspi application to listen to an unix domain stream socket
+and for more flexible distributed logging.
+.LP
+If the environment variables $UID and/or $GID are present,
+.B socklog
+drops permissions to those ids after creating and binding the socket (not in
+.I ucspi
+mode).
+.LP
+.B socklog
+converts syslog facility and priority information to names
+(\fIfacility\fR.\fIpriority\fR:)
+as found in
+.I /usr/include/syslog.h
+at compile time if present.
+.LP
+On solaris
+.B socklog
+also accepts
+.I sun_stream
+as first argument. Please see the web page for details.
+.SH UNIX SOCKET
+.B socklog
+[
+unix
+] [
+.I path
+]
+.LP
+Starting
+.B socklog
+with the 1st argument
+.IR unix ,
+.B socklog
+will listen to the unix domain socket
+.IR path .
+If
+.I path
+is omitted, the default
+.I /dev/log
+is used.
+.LP
+The 1st argument may be omitted, default is
+.IR unix .
+.SH INET SOCKET
+.B socklog
+inet [
+.I ip
+] [
+.I port
+]
+.LP
+Starting
+.B socklog
+with the 1st argument
+.IR inet ,
+.B socklog
+will listen to the inet udp socket
+.I ip\fR:\fIport\fR.
+.LP
+If
+.I ip
+starts with 0,
+.B socklog
+will bind to all local interfaces.
+.LP
+If
+.I port
+is less or equal 1024,
+.B socklog
+must be run by root.
+.LP
+.I port
+may be omitted, default is 514.
+.I ip
+may be omitted, default is 0.
+.LP
+.B socklog
+prepends
+.I a.b.c.d:
+to each syslog message it receives, where
+.I a.b.c.d
+is the ip address of the connecting system.
+.SH UCSPI MODE
+.B socklog
+ucspi [
+.I args
+]
+.LP
+Starting
+.B socklog
+with the 1st argument
+.IR ucspi ,
+.B socklog
+will run as an ucspi application. Normally
+.B socklog
+will only be started in
+.I ucspi
+mode by an ucspi server tool, such as
+.BR tcpsvd (8),
+.BR tcpserver (1)
+or
+.BR unixserver .
+.LP
+For each
+.IR arg ,
+.B socklog
+will prepend
+$\fIarg\fR:
+to each syslog message, if the environment variable
+.RI $ arg
+is present (maximum is 8).
+.SH OPTIONS
+.TP
+.B \-r
+raw.
+Write the raw syslog messages (no conversion of facility and priority)
+to the pipe, additionally to the log messages with syslog facility and
+priority converted to names.
+.TP
+.B \-R
+raw only.
+Same as \-r above, but write the raw syslog messages only.
+.TP
+.B \-U
+respect umask.
+Don't set umask to 0 before creating a unix domain socket, but respect
+the current setting of
+.BR umask (2).
+This option only takes effect in unix mode.
+.SH SEE ALSO
+sv(8),
+runsvdir(8),
+runsv(8),
+svlogd(8),
+tryto(1),
+uncat(1),
+socklog-check(8),
+tcpsvd(8),
+nc(1)
+.LP
+ http://smarden.org/socklog/
+ http://smarden.org/runit/
+.SH AUTHOR
+Gerrit Pape <pape@smarden.org>

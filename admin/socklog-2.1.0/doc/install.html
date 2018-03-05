@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>socklog - installation</title>
+</head>
+<body>
+<a href="http://smarden.org/pape/">G. Pape</a><br>
+<a href="index.html">socklog</a><br>
+<hr>
+<h1>socklog - installation</h1>
+<hr>
+Since version 0.3.0, <i>socklog</i> installs into
+<a href="http://cr.yp.to/slashpackage.html">/package</a>.
+<p>
+Check that you have the recent version of
+<a href="http://smarden.org/runit/">runit</a> installed.
+<p>
+Download
+<a href="socklog-2.1.0.tar.gz">socklog-2.1.0.tar.gz</a> into
+<tt>/package</tt> and unpack the archive
+<pre>
+ # cd /package
+ # gunzip socklog-2.1.0.tar
+ # tar -xpf socklog-2.1.0.tar
+ # rm socklog-2.1.0.tar
+ # cd admin/socklog-2.1.0
+</pre>
+On solaris read <a href="readme.solaris.html">using socklog on solaris</a>
+before proceeding.
+<p>
+Compile and install the <i>socklog</i> programs
+<pre>
+ # package/install
+</pre>
+If you want to make the man pages available in the <tt>/usr/local/man/</tt>
+hierarchy, do:
+<pre>
+ # package/install-man
+</pre>
+To report success:
+<pre>
+ # mail pape-socklog-2.1.0@smarden.org &lt;compile/sysdeps
+</pre>
+If you use <i>socklog</i> regularly, please
+<a href="http://smarden.org/pape/#contribution">contribute</a> to the project.
+<p>
+Refer to <a href="configuration.html">Configuration</a> for
+configuring and setting up <i>socklog</i> services.
+<hr>
+<address><a href="mailto:pape@smarden.org">
+Gerrit Pape &lt;pape@smarden.org&gt;
+</a></address>
+<small>$Id: install.html,v 1.49 2006/03/06 12:56:33 pape Exp $</small>
+</body>
+</html>

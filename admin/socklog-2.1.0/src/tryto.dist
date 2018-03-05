@@ -1,0 +1,21 @@
+usage: tryto [-vp] [-t seconds] [-k kseconds] [-n tries] prog
+
+1
+$Id: tryto.c,v 1.9 2006/02/26 13:30:37 pape Exp $
+
+usage: tryto [-vp] [-t seconds] [-k kseconds] [-n tries] prog
+
+1
+0
+tryto: warning: child crashed.
+tryto: warning: child crashed.
+tryto: fatal: child crashed, giving up.
+1
+tryto: warning: child "sleep" timed out. sending TERM...
+tryto: warning: child terminated.
+tryto: fatal: child timed out, giving up.
+100
+tryto: warning: child "sh" timed out. sending TERM...
+tryto: warning: child "sh" not terminated. sending KILL...
+tryto: fatal: child timed out, giving up.
+100

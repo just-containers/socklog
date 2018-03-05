@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>socklog - system and kernel logging services</title>
+</head>
+<body>
+<a href="http://smarden.org/pape/">G. Pape</a>
+<hr>
+<h1>socklog - system and kernel logging services</h1>
+<hr>
+See <a href="http://smarden.org/socklog2/">here</a> for the current stable
+release 2.0.x of <i>socklog</i>.
+<p>
+<hr>
+<a href="install.html">How to install socklog</a><br>
+<a href="upgrade.html">Upgrading from previous versions of socklog</a><br>
+<a href="usedietlibc.html">How to use dietlibc</a><br>
+<a href="readme.solaris.html">Using on solaris</a>
+<p>
+<a href="benefits.html">Benefits</a><br>
+<a href="configuration.html">Configuration</a><br>
+<a href="examples.html">Examples</a><br>
+<a href="network.html">Network logging</a><br>
+<a href="notify.html">Log events notification</a>
+<p>
+<a href="socklog-conf.8.html">The <tt>socklog-conf</tt> program</a><br>
+<a href="socklog.8.html">The <tt>socklog</tt> program</a><br>
+<a href="tryto.1.html">The <tt>tryto</tt> program</a><br>
+<a href="uncat.1.html">The <tt>uncat</tt> program</a>
+<hr>
+<i>socklog</i>, in cooperation with the
+<a href="http://smarden.org/runit/">runit</a> package, is a small and
+secure replacement for syslogd.
+There are three main features syslogd provides:
+<ul>
+  <li>
+  receiving syslog messages from an unix domain socket
+  (&quot;<tt>/dev/log</tt>&quot;) and writing them to various files on disk
+  depending on <tt>facility</tt> and <tt>priority</tt>.
+  <li>
+  receiving syslog messages from an udp socket
+  (&quot;<tt>0.0.0.0:514</tt>&quot;) and writing them to various files on
+  disk depending on <tt>facility</tt> and <tt>priority</tt>.
+  <li>
+  writing received syslog messages to an udp socket
+  (&quot;<tt>a.b.c.d:514</tt>&quot;)
+</ul>
+<p>
+<i>socklog</i> provides these features with the help of
+<a href="http://smarden.org/runit/">runit</a>'s
+<a href="http://smarden.org/runit/runsvdir.8.html">runsvdir</a>,
+<a href="http://smarden.org/runit/runsv.8.html">runsv</a>,
+and <a href="http://smarden.org/runit/svlogd.8.html">svlogd</a>,
+provides a different
+<a href="network.html">network logging concept</a>, and additionally
+does <a href="notify.html">log event notification</a>.
+<p>
+<a href="http://smarden.org/runit/svlogd.8.html">svlogd</a>
+has a built in
+<a href="benefits.html#logrotation">log file rotation based on file size</a>,
+so there is no need for any cron jobs or similar to rotate the logs.
+Log partitions can be calculated properly.
+<p>
+<i>socklog</i> runs on <b>Linux</b>, glibc 2.1.0 or higher, or dietlibc,
+<b>Open-BSD</b>, and <b>Free-BSD</b>.
+<i>socklog</i> reportedly runs on <b>Solaris</b> and <b>Net-BSD</b>.
+If it runs for you on any other operating systems, please
+<a href="mailto:misc@list.smarden.org">let me know</a>.
+<p>
+<i>socklog</i> is small, secure, reliable.
+<hr>
+<i>socklog</i> is discussed on the
+<a href="mailto:misc@list.smarden.org">&lt;misc@list.smarden.org&gt;</a>
+mailing list. To subscribe send an empty email to
+<a href="mailto:misc-subscribe@list.smarden.org">
+&lt;misc-subscribe@list.smarden.org&gt;</a>. Send an empty email to
+<a href="mailto:misc-help@list.smarden.org">
+&lt;misc-help@list.smarden.org&gt;</a> for more information about this list. 
+<hr>
+<p>
+<i>socklog</i> is run under
+<a href="http://smarden.org/runit/">runit</a>'s
+<a href="http://smarden.org/runit/runsv.8.html">runsv</a>,
+writing syslog messages it receives from an unix domain
+socket <tt>path</tt> (&quot;<tt>/dev/log</tt>&quot;) or an inet udp socket
+<tt>ip:port</tt> (&quot;<tt>0.0.0.0:514</tt>&quot;) through a pipe
+provided by
+<a href="http://smarden.org/runit/runsv.8.html">runsv</a>
+to a <a href="http://smarden.org/runit/svlogd.8.html">svlogd</a>
+process.
+<p>
+<i>socklog</i> can be run as an
+<a href="http://cr.yp.to/proto/ucspi.txt">ucspi</a> application to
+listen to an unix domain stream socket and for centralized or more
+flexible distributed logging (see
+<a href="network.html">network logging</a>).
+<p>
+If <i>socklog</i> listens to an udp socket, it prepends <tt>ip:</tt>
+(&quot;<tt>a.b.c.d: </tt>&quot;) to each syslog message it receives,
+where <tt>a.b.c.d</tt> is the ip address of the connecting system.
+<p>
+If the environment variables <tt>$UID</tt> and/or <tt>$GID</tt> are present,
+<i>socklog</i> drops permissions to those ids after creating and binding
+to the socket (not in
+<a href="http://cr.yp.to/proto/ucspi.txt">ucspi</a> mode).
+<p>
+<i>socklog</i>  converts syslog <tt>facility</tt> and <tt>priority</tt>
+information to names (&quot;<tt>facility.priority</tt>&quot;) as found in
+<tt>/usr/include/syslog.h</tt>
+at compile time if present, you can use this for
+<a href="http://smarden.org/runit/svlogd.8.html">svlogd</a>'s line
+selecting by pattern.
+<hr>
+A proper <tt>run</tt> file for
+<a href="http://smarden.org/runit/runsv.8.html">runsv</a> is:
+<pre>
+  #!/bin/sh
+  exec 2&gt;&amp;1
+  exec chpst -Unobody socklog unix /dev/log
+</pre>
+<p>
+A proper <tt>log/run</tt> file for
+<a href="http://smarden.org/runit/runsv.8.html">runsv</a> is:
+<pre>
+  #!/bin/sh
+  exec chpst -ulog svlogd -t main/*
+</pre>
+<hr>
+See <a href="install.html">INSTALL</a> on how to install <i>socklog</i>
+and <a href="configuration.html">Configuration</a> for setting up
+<i>socklog</i> services.
+<hr>
+See <a href="http://smarden.org/socklog/">http://smarden.org/socklog/</a>
+for recent informations.
+<hr>
+<address><a href="mailto:pape@smarden.org">
+Gerrit Pape &lt;pape@smarden.org&gt;
+</a></address>
+<small>$Id: index.html,v 1.40 2006/03/06 12:56:33 pape Exp $</small>
+</body>
+</html>

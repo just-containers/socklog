@@ -1,0 +1,14 @@
+usage: socklog-conf unix|inet|klog|ucspi acct logacct [/etc/sv] [/logdir]
+usage: socklog-conf notify acct grp [/etc/sv] [pipe]
+
+1
+$Id: socklog-conf.c,v 1.14 2006/03/06 12:56:34 pape Exp $
+
+usage: socklog-conf unix|inet|klog|ucspi acct logacct [/etc/sv] [/logdir]
+usage: socklog-conf notify acct grp [/etc/sv] [pipe]
+
+1
+0
+0
+0
+0

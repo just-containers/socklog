@@ -1,0 +1,60 @@
+.TH socklog-check 8
+.SH NAME
+socklog-check \- checks for the availability of a socklog(8) service.
+.SH SYNOPSIS
+.B socklog-check
+[\-v] [unix
+.RI [ address\fR]]
+.SH DESCRIPTION
+.B socklog-check
+attempts to connect to a
+.BR socklog (8)
+unix service and reports whether the connection attempt succeeded or not.
+.P
+It connects to the datagram oriented unix domain socket
+.IR address ,
+and reports success through the return code.
+If
+.I address
+is not specified,
+.B socklog-check
+attempts to connect to
+.IR /dev/log .
+.P
+When running services that use the syslog facility under runit's service
+supervision,
+.B socklog-check
+should be added to the top of the service's run script to ensure that no
+syslog messages are generated until a syslog service is up and running to
+process the messages, e.g.:
+.P
+ #!/bin/sh
+ socklog-check || exit 1
+ exec service_using_syslog 
+.SH OPTIONS
+.TP
+.B \-v
+verbose.
+Print verbose message to standard error.
+.SH EXIT CODES
+On success
+.B socklog-check
+returns 0.
+.P
+On error,
+.B socklog-check
+prints a message to standard error and exits 111.
+.SH SEE ALSO
+socklog(8),
+socklog-conf(8),
+svlogd(8),
+tryto(1),
+uncat(1),
+sv(8),
+runsv(8),
+runsvdir(8)
+.LP
+ http://smarden.org/socklog/
+ http://smarden.org/runit/
+.SH AUTHOR
+Gerrit Pape <pape@smarden.org>
