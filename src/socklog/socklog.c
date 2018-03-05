@@ -1,7 +1,7 @@
 #include <sys/types.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/un.h>
 #include <unistd.h>
@@ -210,15 +210,15 @@ int socket_inet (const char* ip, const char* port) {
 }
 
 int read_socket (int s) {
-  sig_catch(sig_term, sig_term_catch);
-  sig_catch(sig_int, sig_term_catch);
+  sig_catch(SIGTERM, sig_term_catch);
+  sig_catch(SIGINT, sig_term_catch);
   /* drop permissions */
   setuidgid();
   buffer_putsflush(buffer_2, "starting.\n");
 
   for(;;) {
     struct sockaddr_in saf;
-    int dummy =sizeof saf;
+    socklen_t dummy = sizeof saf;
     int linec;
     int os;
     
@@ -412,7 +412,7 @@ int main(int argc, const char **argv, const char *const *envp) {
   
   progname =*argv;
 
-  while ((opt =getopt(argc, argv, "rRUV")) != opteof) {
+  while ((opt =getopt(argc, argv, "rRUV")) != -1) {
     switch(opt) {
     case 'r': lograw =1; break;
     case 'R': lograw =2; break;

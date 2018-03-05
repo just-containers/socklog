@@ -6,12 +6,12 @@
 #include <skalibs/tai.h>
 
 struct taia {
-  struct tai sec;
+  tai_t sec;
   unsigned long nano; /* 0...999999999 */
   unsigned long atto; /* 0...999999999 */
 } ;
 
-extern void taia_tai(const struct taia *,struct tai *);
+extern void taia_tai(const struct taia *,tai_t *);
 
 extern void taia_now(struct taia *);
 

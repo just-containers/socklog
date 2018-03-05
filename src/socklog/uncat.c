@@ -1,13 +1,15 @@
 #include <unistd.h>
+#include <errno.h>
 #include <skalibs/strerr.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/types.h>
 #include <skalibs/stralloc.h>
-#include <skalibs/buffer.h>
 #include <skalibs/djbunix.h>
 #include <skalibs/iopause.h>
 #include <skalibs/sig.h>
 #include "taia.h"
+#include "buffer.h"
+#include "strerr.h"
 
 /* defaults */
 #define TIMEOUT 300
@@ -16,6 +18,12 @@
 #define USAGE " [-vo] [-t timeout] [-s size] prog"
 #define WARNING "uncat: warning: "
 #define FATAL "uncat: fatal: "
+
+#define wait_crashed(w) ((w) & 127)
+#define wait_exitcode(w) ((w) >> 8)
+#define wait_stopsig(w) ((w) >> 8)
+#define wait_stopped(w) (((w) & 127) == 127)
+
 
 const char *progname;
 int exitasap =0;
@@ -39,10 +47,10 @@ int main (int argc, const char * const *argv, const char * const *envp) {
 
   progname =*argv;
 
-  sig_block(sig_term);
-  sig_catch(sig_term, exit_asap);
+  sig_block(SIGTERM);
+  sig_catch(SIGTERM, exit_asap);
 
-  while ((opt =getopt(argc, argv, "t:s:voV")) != opteof) {
+  while ((opt =getopt(argc, argv, "t:s:voV")) != -1) {
     switch(opt) {
     case 'V':
       strerr_warn1("$Id: uncat.c,v 1.8 2004/02/28 15:52:00 pape Exp $\n", 0);
@@ -98,9 +106,9 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       iofd.fd =0;
       iofd.events =IOPAUSE_READ;
 
-      sig_unblock(sig_term);
+      sig_unblock(SIGTERM);
       iopause(&iofd, 1, &deadline, &now);
-      sig_block(sig_term);
+      sig_block(SIGTERM);
       
       if (exitasap) {
       	if (verbose) strerr_warn2(WARNING, "got sigterm.", 0);
@@ -141,9 +149,9 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       }
       if (!pid) {
 	/* child */
-	
-	sig_uncatch(sig_term);
-	sig_unblock(sig_term);
+
+	sig_uncatch(SIGTERM);
+	sig_unblock(SIGTERM);
 
 	close(cpipe[1]);
 	fd_move(0, cpipe[0]);
