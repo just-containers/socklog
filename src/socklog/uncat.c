@@ -8,6 +8,7 @@
 #include <skalibs/iopause.h>
 #include <skalibs/sig.h>
 #include <skalibs/buffer.h>
+#include "djb-compat.h"
 
 /* defaults */
 #define TIMEOUT 300
@@ -16,16 +17,6 @@
 #define USAGE " [-vo] [-t timeout] [-s size] prog"
 #define WARNING "uncat: warning: "
 #define FATAL "uncat: fatal: "
-
-#define wait_crashed(w) ((w) & 127)
-#define wait_exitcode(w) ((w) >> 8)
-#define wait_stopsig(w) ((w) >> 8)
-#define wait_stopped(w) (((w) & 127) == 127)
-
-#define buffer_peek(s) (s->c.x + s->c.n)
-#define buffer_seek(s,len) \
-  s->c.n += len; \
-  s->c.p -= len;
 
 
 const char *progname;
@@ -166,7 +157,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       }
       
       close(cpipe[0]);
-      if (write(cpipe[1], sa.s, sa.len) < sa.len) {
+      if (fd_write(cpipe[1], sa.s, sa.len) < sa.len) {
 	strerr_warn2(WARNING, "unable to write to child: ", strerror(errno));
       }
       close(cpipe[1]);
