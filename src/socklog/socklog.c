@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,6 +16,7 @@
 #include <skalibs/djbunix.h>
 #include <skalibs/sig.h>
 #include <skalibs/sgetopt.h>
+#include <skalibs/posixplz.h>
 
 #define SYSLOG_NAMES
 #include <syslog.h>
@@ -62,7 +64,7 @@ unsigned int lograw =0;
 unsigned int noumask =0;
 
 int flag_exitasap = 0;
-void sig_term_catch(void) {
+void sig_term_catch(int s) {
   flag_exitasap = 1;
 }
 
@@ -82,7 +84,7 @@ void err(const char *s1, const char *s2, const char *s3) {
 
 void setuidgid() {
   /* drop permissions */
-  if ((gid = env_get("GID")) != NULL) {
+  if ((gid = getenv("GID")) != NULL) {
     unsigned long g;
 
     ulong_scan(gid, &g);
@@ -90,7 +92,7 @@ void setuidgid() {
     if (prot_gid(g) == -1)
       strerr_die2sys(111, FATAL, "unable to setgid: ");
   }
-  if ((uid = env_get("UID")) != NULL) {
+  if ((uid = getenv("UID")) != NULL) {
     unsigned long u;
 
     ulong_scan(uid, &u);
@@ -265,7 +267,7 @@ int read_ucspi (int fd, const char **vars) {
   int i;
   
   for (i =0; *vars && (i < 8); vars++) {
-    if ((envs[i] =env_get(*vars)) != NULL)
+    if ((envs[i] = getenv(*vars)) != NULL)
       i++;
   }
   envs[i] =NULL;
@@ -412,7 +414,7 @@ int main(int argc, const char **argv, const char *const *envp) {
   
   progname =*argv;
 
-  while ((opt =getopt(argc, argv, "rRUV")) != -1) {
+  while ((opt = sgetopt(argc, (char const *const *)argv, "rRUV")) != -1) {
     switch(opt) {
     case 'r': lograw =1; break;
     case 'R': lograw =2; break;

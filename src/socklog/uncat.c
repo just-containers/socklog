@@ -9,7 +9,6 @@
 #include <skalibs/sig.h>
 #include "taia.h"
 #include "buffer.h"
-#include "strerr.h"
 
 /* defaults */
 #define TIMEOUT 300
@@ -50,7 +49,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
   sig_block(SIGTERM);
   sig_catch(SIGTERM, exit_asap);
 
-  while ((opt =getopt(argc, argv, "t:s:voV")) != -1) {
+  while ((opt = sgetopt(argc, (char const *const *)argv, "t:s:voV")) != -1) {
     switch(opt) {
     case 'V':
       strerr_warn1("$Id: uncat.c,v 1.8 2004/02/28 15:52:00 pape Exp $\n", 0);
@@ -107,7 +106,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       iofd.events =IOPAUSE_READ;
 
       sig_unblock(SIGTERM);
-      iopause(&iofd, 1, &deadline, &now);
+      iopause(&iofd, 1, (tain_t *)&deadline, (tain_t *)&now);
       sig_block(SIGTERM);
       
       if (exitasap) {
@@ -144,7 +143,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       }
       while ((pid =fork()) == -1) {
 	strerr_warn4(WARNING, "unable to fork for \"", *argv, "\" pausing: ",
-		     &strerr_sys);
+		     strerror(errno));
 	sleep(5);
       }
       if (!pid) {
@@ -164,11 +163,11 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       
       close(cpipe[0]);
       if (write(cpipe[1], sa.s, sa.len) < sa.len) {
-	strerr_warn2(WARNING, "unable to write to child: ", &strerr_sys);
+	strerr_warn2(WARNING, "unable to write to child: ", strerror(errno));
       }
       close(cpipe[1]);
       
-      if (wait_pid(&wstat, pid) != pid) {
+      if (wait_pid(pid, &wstat) != pid) {
 	strerr_die2sys(111, FATAL, "wait_pid: ");
       }
       if (wait_crashed(wstat)) {
