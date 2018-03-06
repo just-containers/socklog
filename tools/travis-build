@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
 if [[ ! -d tools ]] ; then
     printf "This script needs to be run from the root of the repo, like ./tools/travis-setup\n"
@@ -11,7 +12,6 @@ mkdir -p tools/cross/bin
 mkdir -p dist
 
 export PATH="$(pwd)/tools/cross/bin:$PATH"
-
 
 targets=(
 'x86_64-linux-musl'
@@ -59,7 +59,7 @@ fi
 tar xf "tools/downloads/github-release.tar.bz2" -C tools/cross/bin --strip-components=3
 
 for target in "${targets[@]}" ; do
-  gccurl="$murl_cross_make/gcc-${gccver}-${target}.tar.xz"
+  gccurl="$musl_cross_make/gcc-${gccver}-${target}.tar.xz"
   gccfile=$(basename $gccurl)
   if [[ ! -f "tools/downloads/$gccfile" ]] ; then
     printf "Downloading tools/downloads/$gccfile\n"
@@ -100,3 +100,23 @@ for target in "${targets[@]}" ; do
 done
 
 printf 'Built using `skalibs-%s`\n' "${versions[skalibs]}" > dist/release.md
+
+mkdir -p dist/socklog-${versions[socklog]}
+
+cp -r doc dist/socklog-${versions[socklog]}/doc
+cp -r man dist/socklog-${versions[socklog]}/man
+cp -r package dist/socklog-${versions[socklog]}/package
+cp -r src dist/socklog-${versions[socklog]}/src
+cp CHANGES dist/socklog-${versions[socklog]}/CHANGES
+cp COPYING dist/socklog-${versions[socklog]}/COPYING
+cp configure dist/socklog-${versions[socklog]}/configure
+cp Makefile dist/socklog-${versions[socklog]}/Makefile
+cp README.md dist/socklog-${versions[socklog]}/README.md
+cp tools/gen-deps.sh dist/socklog-${versions[socklog]}/gen-deps.sh
+cp tools/install.sh dist/socklog-${versions[socklog]}/install.sh
+
+tar cvzf dist/socklog-${versions[socklog]}.tar.gz \
+  -C dist \
+  --owner 0 \
+  --group 0 \
+  socklog-${versions[socklog]}
