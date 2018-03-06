@@ -65,6 +65,7 @@ unsigned int noumask =0;
 
 int flag_exitasap = 0;
 void sig_term_catch(int s) {
+  (void)s;
   flag_exitasap = 1;
 }
 
@@ -262,6 +263,7 @@ int read_socket (int s) {
 }
 
 int read_ucspi (int fd, const char **vars) {
+  (void)(fd);
   char *envs[9];
   int flageol =1;
   int i;
@@ -409,6 +411,7 @@ static void read_stream_sun(int fd) {
 #endif
 
 int main(int argc, const char **argv, const char *const *envp) {
+  (void)(envp);
   int opt;
   int s =0;
   

@@ -125,7 +125,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
 	eof++;
   	break;
       }
-      if (r >= sizemax) r =sizemax;
+      if ((unsigned int)r >= sizemax) r = sizemax;
       if ((sa.len +r) > sizemax) {
       	if (verbose) strerr_warn2(WARNING, "max size reached.", 0);
       	break;
