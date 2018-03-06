@@ -3,3 +3,4 @@
 /socklog
 /tryto
 *.o
+/src/include/socklog/config.h
