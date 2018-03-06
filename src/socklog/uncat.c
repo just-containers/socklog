@@ -7,7 +7,7 @@
 #include <skalibs/djbunix.h>
 #include <skalibs/iopause.h>
 #include <skalibs/sig.h>
-#include "buffer.h"
+#include <skalibs/buffer.h>
 
 /* defaults */
 #define TIMEOUT 300
@@ -21,6 +21,11 @@
 #define wait_exitcode(w) ((w) >> 8)
 #define wait_stopsig(w) ((w) >> 8)
 #define wait_stopped(w) (((w) & 127) == 127)
+
+#define buffer_peek(s) (s->c.x + s->c.n)
+#define buffer_seek(s,len) \
+  s->c.n += len; \
+  s->c.p -= len;
 
 
 const char *progname;
@@ -113,7 +118,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       	break;
       }
       
-      r =buffer_feed(buffer_0);
+      r = buffer_fill(buffer_0);
       if (r < 0) {
 	if (errno == EAGAIN) continue;
 	strerr_die2sys(111, FATAL, "unable to read fd 0: ");
