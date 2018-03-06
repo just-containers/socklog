@@ -4,3 +4,6 @@
 /tryto
 *.o
 /src/include/socklog/config.h
+/tools/downloads
+/tools/cross
+/dist
