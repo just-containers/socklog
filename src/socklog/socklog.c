@@ -428,6 +428,7 @@ int main(int argc, const char **argv, const char *const *envp) {
     case 'V':
       err(VERSION, 0, 0);
       buffer_putsflush(buffer_2, "\n\n");
+      /* fall through */
     case '?': usage();
     }
   }

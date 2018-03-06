@@ -59,6 +59,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
     switch(opt) {
     case 'V':
       strerr_warn1("$Id: tryto.c,v 1.9 2006/02/26 13:30:37 pape Exp $\n", 0);
+      /* fall through */
     case '?':
       usage();
     case 't':
