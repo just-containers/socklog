@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-set -x
 
 if [[ ! -d tools ]] ; then
     printf "This script needs to be run from the root of the repo, like ./tools/travis-setup\n"
