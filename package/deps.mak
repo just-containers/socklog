@@ -3,8 +3,8 @@
 #
 
 src/socklog/socklog.o src/socklog/socklog.lo: src/socklog/socklog.c
-src/socklog/tryto.o src/socklog/tryto.lo: src/socklog/tryto.c
-src/socklog/uncat.o src/socklog/uncat.lo: src/socklog/uncat.c
+src/socklog/tryto.o src/socklog/tryto.lo: src/socklog/tryto.c src/socklog/djb-compat.h
+src/socklog/uncat.o src/socklog/uncat.lo: src/socklog/uncat.c src/socklog/djb-compat.h
 
 socklog: EXTRA_LIBS :=
 socklog: src/socklog/socklog.o -lskarnet
