@@ -1,3 +1,10 @@
+socklog 2.2.0
+Tue, 06 Mar 2017 14:49:50 +0000
+  * now requires skalibs to build
+  * uses a more familiar ./configure; make; make install process instead
+    of slashpackage
+  * removed socklog-conf, socklog-check
+
 socklog 2.1.0
 Mon, 06 Mar 2006 12:59:33 +0000
   * socklog-conf, man/socklog-conf.8: create service directories
