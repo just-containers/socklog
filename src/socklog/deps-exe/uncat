@@ -1,11 +1,3 @@
-taia_add.o
-taia_approx.o
-taia_frac.o
-taia_less.o
-taia_now.o
-taia_pack.o
-taia_sub.o
-taia_uint.o
 buffer_0.o
 buffer_1.o
 buffer_2.o

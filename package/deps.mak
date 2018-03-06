@@ -11,17 +11,9 @@ src/socklog/buffer_put.o src/socklog/buffer_put.lo: src/socklog/buffer_put.c src
 src/socklog/buffer_read.o src/socklog/buffer_read.lo: src/socklog/buffer_read.c src/socklog/buffer.h
 src/socklog/buffer_write.o src/socklog/buffer_write.lo: src/socklog/buffer_write.c src/socklog/buffer.h
 src/socklog/socklog.o src/socklog/socklog.lo: src/socklog/socklog.c
-src/socklog/taia_add.o src/socklog/taia_add.lo: src/socklog/taia_add.c src/socklog/taia.h
-src/socklog/taia_approx.o src/socklog/taia_approx.lo: src/socklog/taia_approx.c src/socklog/taia.h
-src/socklog/taia_frac.o src/socklog/taia_frac.lo: src/socklog/taia_frac.c src/socklog/taia.h
-src/socklog/taia_less.o src/socklog/taia_less.lo: src/socklog/taia_less.c src/socklog/taia.h
-src/socklog/taia_now.o src/socklog/taia_now.lo: src/socklog/taia_now.c src/socklog/taia.h
-src/socklog/taia_pack.o src/socklog/taia_pack.lo: src/socklog/taia_pack.c src/socklog/taia.h
-src/socklog/taia_sub.o src/socklog/taia_sub.lo: src/socklog/taia_sub.c src/socklog/taia.h
-src/socklog/taia_uint.o src/socklog/taia_uint.lo: src/socklog/taia_uint.c src/socklog/taia.h
-src/socklog/uncat.o src/socklog/uncat.lo: src/socklog/uncat.c src/socklog/buffer.h src/socklog/taia.h
+src/socklog/uncat.o src/socklog/uncat.lo: src/socklog/uncat.c src/socklog/buffer.h
 
 socklog: EXTRA_LIBS :=
 socklog: src/socklog/socklog.o -lskarnet
 uncat: EXTRA_LIBS :=
-uncat: src/socklog/uncat.o src/socklog/taia_add.o src/socklog/taia_approx.o src/socklog/taia_frac.o src/socklog/taia_less.o src/socklog/taia_now.o src/socklog/taia_pack.o src/socklog/taia_sub.o src/socklog/taia_uint.o src/socklog/buffer_0.o src/socklog/buffer_1.o src/socklog/buffer_2.o src/socklog/buffer.o src/socklog/buffer_get.o src/socklog/buffer_put.o src/socklog/buffer_read.o src/socklog/buffer_write.o -lskarnet
+uncat: src/socklog/uncat.o src/socklog/buffer_0.o src/socklog/buffer_1.o src/socklog/buffer_2.o src/socklog/buffer.o src/socklog/buffer_get.o src/socklog/buffer_put.o src/socklog/buffer_read.o src/socklog/buffer_write.o -lskarnet

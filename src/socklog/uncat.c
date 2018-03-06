@@ -7,7 +7,6 @@
 #include <skalibs/djbunix.h>
 #include <skalibs/iopause.h>
 #include <skalibs/sig.h>
-#include "taia.h"
 #include "buffer.h"
 
 /* defaults */
@@ -79,7 +78,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
   ndelay_on(0);
 
   for (;;) {
-    struct taia now, deadline;
+    tain_t now, deadline;
     int cpipe[2];
     int pid;
     int wstat;
@@ -87,9 +86,9 @@ int main (int argc, const char * const *argv, const char * const *envp) {
     stralloc_copys(&sa, "");
 
     /* set timeout */
-    taia_now(&now);
-    taia_uint(&deadline, timeout);
-    taia_add(&deadline, &now, &deadline);
+    tain_now(&now);
+    tain_uint(&deadline, timeout);
+    tain_add(&deadline, &now, &deadline);
 
     /* read fd 0, stop at maxsize bytes or timeout */
     for (;;) {
@@ -97,8 +96,8 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       char *s;
       iopause_fd iofd;
 
-      taia_now(&now);
-      if (taia_less(&deadline, &now)) {
+      tain_now(&now);
+      if (tain_less(&deadline, &now)) {
       	if (verbose && sa.len) strerr_warn2(WARNING, "timeout reached.", 0);
       	break;
       }
