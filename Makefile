@@ -71,7 +71,7 @@ tgz: distclean
 	rm -rf /tmp/$$package-$$version && \
 	cp -a . /tmp/$$package-$$version && \
 	cd /tmp && \
-	tar -zpcv --owner=0 --group=0 --numeric-owner --exclude=.git* -f /tmp/$$package-$$version.tar.gz $$package-$$version && \
+	tar -zpcv --owner=0 --group=0 --numeric-owner --exclude=.travis* --exclude=dist --exclude=tools/cross --exclude=tools/downloads --exclude=tools/travis* --exclude=tools/keys* --exclude=.git* -f /tmp/$$package-$$version.tar.gz $$package-$$version && \
 	exec rm -rf /tmp/$$package-$$version
 
 strip: $(ALL_LIBS) $(ALL_BINS)

@@ -100,22 +100,6 @@ done
 
 printf 'Built using `skalibs-%s`\n' "${versions[skalibs]}" > dist/release.md
 
-mkdir -p dist/socklog-${versions[socklog]}/tools
+make tgz
+cp /tmp/socklog-${versions[socklog]}.tar.gz dist/
 
-cp -r doc dist/socklog-${versions[socklog]}/doc
-cp -r man dist/socklog-${versions[socklog]}/man
-cp -r package dist/socklog-${versions[socklog]}/package
-cp -r src dist/socklog-${versions[socklog]}/src
-cp CHANGES dist/socklog-${versions[socklog]}/CHANGES
-cp COPYING dist/socklog-${versions[socklog]}/COPYING
-cp configure dist/socklog-${versions[socklog]}/configure
-cp Makefile dist/socklog-${versions[socklog]}/Makefile
-cp README.md dist/socklog-${versions[socklog]}/README.md
-cp tools/gen-deps.sh dist/socklog-${versions[socklog]}/tools/gen-deps.sh
-cp tools/install.sh dist/socklog-${versions[socklog]}/tools/install.sh
-
-tar cvzf dist/socklog-${versions[socklog]}.tar.gz \
-  -C dist \
-  --owner 0 \
-  --group 0 \
-  socklog-${versions[socklog]}
