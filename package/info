@@ -1,4 +1,4 @@
 package=socklog
-version=1.2.0
+version=2.2.0
 category=admin
 package_macro_name=SOCKLOG
