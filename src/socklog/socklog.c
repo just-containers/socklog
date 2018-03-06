@@ -89,17 +89,17 @@ void err(const char *s1, const char *s2, const char *s3) {
 void setuidgid() {
   /* drop permissions */
   if ((gid = getenv("GID")) != NULL) {
-    unsigned long g;
+    gid_t g;
 
-    ulong_scan(gid, &g);
+    gid0_scan(gid, &g);
     err("gid=", gid, ", ");
     if (prot_gid(g) == -1)
       strerr_die2sys(111, FATAL, "unable to setgid: ");
   }
   if ((uid = getenv("UID")) != NULL) {
-    unsigned long u;
+    uid_t u;
 
-    ulong_scan(uid, &u);
+    uid0_scan(uid, &u);
     err("uid=", uid, ", ");
     if (prot_uid(u) == -1)
       strerr_die2sys(111, FATAL, "unable to setuid: ");
