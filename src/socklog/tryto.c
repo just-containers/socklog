@@ -10,6 +10,7 @@
 #include <skalibs/types.h>
 #include <skalibs/error.h>
 #include <skalibs/sgetopt.h>
+#include <skalibs/gccattributes.h>
 #include "djb-compat.h"
 
 /* defaults */
@@ -21,6 +22,8 @@
 #define WARNING "tryto: warning: "
 #define FATAL "tryto: fatal: "
 
+void usage(void) gccattr_noreturn;
+
 const char *progname;
 int selfpipe[2];
 int try =0;
@@ -31,7 +34,7 @@ void sig_child_handler(int s) {
   fd_write(selfpipe[1], "", 1);
 }
 
-void usage () {
+void usage(void) {
   strerr_die4x(1, "usage: ", progname, USAGE, "\n");
 }
 

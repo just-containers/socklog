@@ -8,6 +8,7 @@
 #include <skalibs/iopause.h>
 #include <skalibs/sig.h>
 #include <skalibs/buffer.h>
+#include <skalibs/gccattributes.h>
 #include "djb-compat.h"
 
 /* defaults */
@@ -18,6 +19,8 @@
 #define WARNING "uncat: warning: "
 #define FATAL "uncat: fatal: "
 
+void usage(void) gccattr_noreturn;
+
 
 const char *progname;
 int exitasap =0;
@@ -26,7 +29,7 @@ void exit_asap() {
   exitasap =1;
 }
 
-void usage () {
+void usage(void) {
   strerr_die4x(1, "usage: ", progname, USAGE, "\n");
 }
 

@@ -17,6 +17,7 @@
 #include <skalibs/sig.h>
 #include <skalibs/sgetopt.h>
 #include <skalibs/posixplz.h>
+#include <skalibs/gccattributes.h>
 
 #define SYSLOG_NAMES
 #include <syslog.h>
@@ -46,6 +47,8 @@
 #define DEFAULTPORT "514"
 #define DEFAULTUNIX "/dev/log"
 
+void usage(void) gccattr_noreturn;
+
 const char *progname;
 
 #define LINEC 1024
@@ -69,7 +72,7 @@ void sig_term_catch(int s) {
   flag_exitasap = 1;
 }
 
-void usage() {
+void usage(void) {
   strerr_die4x(1, "usage: ", progname, USAGE, "\n");
 }
 
