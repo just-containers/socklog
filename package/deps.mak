@@ -3,9 +3,12 @@
 #
 
 src/socklog/socklog.o src/socklog/socklog.lo: src/socklog/socklog.c
+src/socklog/tryto.o src/socklog/tryto.lo: src/socklog/tryto.c
 src/socklog/uncat.o src/socklog/uncat.lo: src/socklog/uncat.c
 
 socklog: EXTRA_LIBS :=
 socklog: src/socklog/socklog.o -lskarnet
+tryto: EXTRA_LIBS :=
+tryto: src/socklog/tryto.o -lskarnet
 uncat: EXTRA_LIBS :=
 uncat: src/socklog/uncat.o -lskarnet

@@ -1,4 +1,5 @@
 /config.mak
 /uncat
 /socklog
+/tryto
 *.o

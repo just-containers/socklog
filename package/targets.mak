@@ -1,4 +1,5 @@
 BIN_TARGETS := \
+tryto \
 socklog \
 uncat
 
