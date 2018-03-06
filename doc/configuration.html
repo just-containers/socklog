@@ -51,11 +51,7 @@ decisions:
   programs run under this account. If this account does not exist, create
   it now.
 </ul>
-Create the service directory and log directories by running the
-<a href="socklog-conf.8.html"><tt>socklog-conf</tt></a> program:
-<pre>
-  # socklog-conf unix nobody log
-</pre>
+Create the service directory and log directories.
 If you are replacing another service providing system logging through the
 socket <tt>/dev/log</tt>, such as <i>syslogd</i>, stop this service now and
 ensure that it will not be restarted on runlevel change or system reboot.
@@ -91,11 +87,7 @@ decisions:
   programs run under this account. If this account does not exist, create
   it now.
 </ul>
-Create the service directory and log directories by running the
-<a href="socklog-conf.8.html"><tt>socklog-conf</tt></a> program:
-<pre>
-  # socklog-conf inet nobody log
-</pre>
+Create the service directory and log directories.
 If you are replacing another service providing system logging through the
 syslog UDP port 514, such as <i>syslogd</i>, stop this service now and ensure
 that it will not be restarted on runlevel change or system reboot.
@@ -131,11 +123,7 @@ decisions:
   programs run under this account. If this account does not exist, create
   it now.
 </ul>
-Create the service directory and log directories by running the
-<a href="socklog-conf.8.html"><tt>socklog-conf</tt></a> program:
-<pre>
-  # socklog-conf klog nobody log
-</pre>
+Create the service directory and log directories.
 If you are replacing another service providing kernel logging, such as
 <i>klogd</i> on Linux or <i>syslogd</i> on BSD, stop this service now and
 ensure that it will not be restarted on runlevel change or system reboot.
@@ -173,11 +161,7 @@ to make two decisions:
 </ul>
 Make sure that you have the <a href="http://smarden.org/ipsvd/">ipsvd</a>
 package installed.
-Then create the service directory and log directories by running the
-<a href="socklog-conf.8.html"><tt>socklog-conf</tt></a> program:
-<pre>
-  # socklog-conf ucspi-tcp nobody log
-</pre>
+Then create the service directory and log directories.
 Tell <a href="http://smarden.org/runit/runsvdir.8.html">runsvdir</a> about
 the new service:
 <pre>
@@ -211,11 +195,6 @@ make two decisions:
   <i>socklog-notify</i> service must run under an account that is member
   of this group. If this group does not exist, create it now.
 </ul>
-Create the service directory by running the
-<a href="socklog-conf.8.html"><tt>socklog-conf</tt></a> program:
-<pre>
-  # socklog-conf notify log adm
-</pre>
 Tell <a href="http://smarden.org/runit/runsvdir.8.html">runsvdir</a> about
 the new service:
 <pre>

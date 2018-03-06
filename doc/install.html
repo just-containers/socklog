@@ -9,24 +9,17 @@
 <hr>
 <h1>socklog - installation</h1>
 <hr>
-Since version 0.3.0, <i>socklog</i> installs into
-<a href="http://cr.yp.to/slashpackage.html">/package</a>.
+socklog now requires <a href="http://skarnet.org/software/skalibs/">skalibs</a>
+as a compile-time dependency. It's also a run-time dependency if you link against
+the shared libraries instead of statically.
 <p>
-Check that you have the recent version of
-<a href="http://smarden.org/runit/">runit</a> installed.
-<p>
-Download
-<a href="socklog-2.1.0.tar.gz">socklog-2.1.0.tar.gz</a> into
-<tt>/package</tt> and unpack the archive
+Download socklog into any directory and run ./configure
 <pre>
- # cd /package
- # gunzip socklog-2.1.0.tar
- # tar -xpf socklog-2.1.0.tar
- # rm socklog-2.1.0.tar
- # cd admin/socklog-2.1.0
+ # cd socklog-2.2.0
+ # ./configure
+ # make
+ # make install
 </pre>
-On solaris read <a href="readme.solaris.html">using socklog on solaris</a>
-before proceeding.
 <p>
 Compile and install the <i>socklog</i> programs
 <pre>
