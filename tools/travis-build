@@ -28,7 +28,7 @@ target_short[arm-linux-musleabi]="arm"
 target_short[arm-linux-musleabihf]="armhf"
 
 declare -A versions
-versions[socklog]=2.2.0
+versions[socklog]=2.2.1
 
 skaware_release=v1.21.7
 musl_make_release=v11
