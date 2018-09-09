@@ -30,8 +30,8 @@ target_short[arm-linux-musleabihf]="armhf"
 declare -A versions
 versions[socklog]=2.2.0
 
-skaware_release=v1.21.6
-musl_make_release=v10
+skaware_release=v1.21.7
+musl_make_release=v11
 gccver=7.3.0
 
 musl_cross_make="https://github.com/just-containers/musl-cross-make/releases/download/$musl_make_release"
