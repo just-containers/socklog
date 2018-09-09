@@ -35,8 +35,8 @@ void usage(void) {
 
 int main (int argc, const char * const *argv, const char * const *envp) {
   int opt;
-  unsigned long timeout =TIMEOUT;
-  unsigned long sizemax =SIZEMAX;
+  uint32_t timeout =TIMEOUT;
+  uint32_t sizemax =SIZEMAX;
   int verbose =0;
   int once =0;
   static stralloc sa;
@@ -55,11 +55,11 @@ int main (int argc, const char * const *argv, const char * const *envp) {
     case '?':
       usage();
     case 't':
-      ulong_scan(optarg, &timeout);
+      uint32_scan(optarg, &timeout);
       if (timeout <= 0) timeout =TIMEOUT;
       break;
     case 's':
-      ulong_scan(optarg, &sizemax);
+      uint32_scan(optarg, &sizemax);
       if (sizemax <= 0) sizemax =SIZEMAX;
       break;
     case 'v':
@@ -82,6 +82,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
     int cpipe[2];
     int pid;
     int wstat;
+    int fd_write_res;
 
     stralloc_copys(&sa, "");
 
@@ -161,7 +162,8 @@ int main (int argc, const char * const *argv, const char * const *envp) {
       }
       
       close(cpipe[0]);
-      if (fd_write(cpipe[1], sa.s, sa.len) < sa.len) {
+      fd_write_res = fd_write(cpipe[1], sa.s, sa.len);
+      if (fd_write_res < 0 || (unsigned int)fd_write_res < sa.len) {
 	strerr_warn2(WARNING, "unable to write to child: ", strerror(errno));
       }
       close(cpipe[1]);

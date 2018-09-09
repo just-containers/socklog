@@ -44,9 +44,9 @@ int main (int argc, const char * const *argv, const char * const *envp) {
   iopause_fd x[2];
   int pid;
   int rc =111;
-  unsigned long timeout =TIMEOUT;
-  unsigned long ktimeout =KTIMEOUT;
-  unsigned long trymax =TRYMAX;
+  uint32_t timeout =TIMEOUT;
+  uint32_t ktimeout =KTIMEOUT;
+  uint32_t trymax =TRYMAX;
   int verbose =0;
   char ch;
   int processor =0;
@@ -63,15 +63,15 @@ int main (int argc, const char * const *argv, const char * const *envp) {
     case '?':
       usage();
     case 't':
-      ulong_scan(optarg, &timeout);
+      uint32_scan(optarg, &timeout);
       if (timeout <= 0) timeout =TIMEOUT;
       break;
     case 'k':
-      ulong_scan(optarg, &ktimeout);
+      uint32_scan(optarg, &ktimeout);
       if (ktimeout <= 0) ktimeout =KTIMEOUT;
       break;
     case 'n':
-      ulong_scan(optarg, &trymax);
+      uint32_scan(optarg, &trymax);
       break;
     case 'p':
       processor =1;

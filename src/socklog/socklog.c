@@ -93,7 +93,7 @@ void setuidgid() {
 
     gid0_scan(gid, &g);
     err("gid=", gid, ", ");
-    if (prot_gid(g) == -1)
+    if (setgid(g) == -1)
       strerr_die2sys(111, FATAL, "unable to setgid: ");
   }
   if ((uid = getenv("UID")) != NULL) {
@@ -101,7 +101,7 @@ void setuidgid() {
 
     uid0_scan(uid, &u);
     err("uid=", uid, ", ");
-    if (prot_uid(u) == -1)
+    if (setuid(u) == -1)
       strerr_die2sys(111, FATAL, "unable to setuid: ");
   }
 }
@@ -184,7 +184,7 @@ int socket_unix (const char* f) {
 
 int socket_inet (const char* ip, const char* port) {
   int s;
-  unsigned long p;
+  uint16_t p;
   struct sockaddr_in sa;
   
   byte_zero(&sa, sizeof(sa));
@@ -201,7 +201,7 @@ int socket_inet (const char* ip, const char* port) {
   }
   if ((s =socket(AF_INET, SOCK_DGRAM, 0)) == -1)
     strerr_die2sys(111, FATAL, "socket(): ");
-  if (ulong_scan(port, &p) == 0)
+  if (uint16_scan(port, &p) == 0)
     strerr_die3x(111, FATAL, "bad port number: ", port);
 
   sa.sin_family =AF_INET;
