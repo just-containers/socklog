@@ -18,6 +18,7 @@ targets=(
 'aarch64-linux-musl'
 'arm-linux-musleabi'
 'arm-linux-musleabihf'
+'powerpc64le-linux-musl'
 )
 
 declare -A target_short
@@ -26,12 +27,13 @@ target_short[i486-linux-musl]="x86"
 target_short[aarch64-linux-musl]="aarch64"
 target_short[arm-linux-musleabi]="arm"
 target_short[arm-linux-musleabihf]="armhf"
+target_short[powerpc64le-linux-musl]="ppc64le"
 
 declare -A versions
 versions[socklog]=2.2.1
 
-skaware_release=v1.21.8
-musl_make_release=v12
+skaware_release=v1.22.1
+musl_make_release=v13
 gccver=7.3.0
 
 musl_cross_make="https://github.com/just-containers/musl-cross-make/releases/download/$musl_make_release"
