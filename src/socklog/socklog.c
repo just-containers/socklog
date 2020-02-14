@@ -420,7 +420,7 @@ int main(int argc, const char **argv, const char *const *envp) {
   
   progname =*argv;
 
-  while ((opt = sgetopt(argc, (char const *const *)argv, "rRUV")) != -1) {
+  while ((opt = sgetopt_r((argc), ((char const *const *)argv), ("rRUV"), &subgetopt_here)) != -1) {
     switch(opt) {
     case 'r': lograw =1; break;
     case 'R': lograw =2; break;
@@ -432,7 +432,7 @@ int main(int argc, const char **argv, const char *const *envp) {
     case '?': usage();
     }
   }
-  argv +=optind;
+  argv += subgetopt_here.ind;
 
   if (*argv) {
     switch (**argv) {
