@@ -9,6 +9,7 @@
 #include <skalibs/sig.h>
 #include <skalibs/buffer.h>
 #include <skalibs/gccattributes.h>
+#include <skalibs/exec.h>
 #include "djb-compat.h"
 
 /* defaults */
@@ -157,7 +158,7 @@ int main (int argc, const char * const *argv, const char * const *envp) {
 	fd_copy(1, 2);
 
 	if (verbose) strerr_warn2(WARNING, "starting child.", 0);
-	pathexec_run(*argv, argv, envp);
+	exec_ae(*argv, argv, envp);
 	strerr_die2sys(111, FATAL, "unable to start child: ");
       }
       
