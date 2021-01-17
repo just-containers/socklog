@@ -30,10 +30,10 @@ target_short[arm-linux-musleabihf]="armhf"
 target_short[powerpc64le-linux-musl]="ppc64le"
 
 declare -A versions
-versions[socklog]=2.2.1
+versions[socklog]=$(grep version package/info | cut -d'=' -f2)
 
-skaware_release=v1.22.1
-musl_make_release=v13
+skaware_release=v2.0.3
+musl_make_release=v15
 gccver=7.3.0
 
 musl_cross_make="https://github.com/just-containers/musl-cross-make/releases/download/$musl_make_release"
@@ -50,14 +50,6 @@ while read -r line ; do
     versions[$key]="$value"
   fi
 done < tools/downloads/manifest.txt
-
-if [[ ! -f "tools/downloads/github-release.tar.bz2" ]] ; then
-  printf "Downloading tools/downloads/github-release.tar.bz2\n"
-  curl -s -R -L -o "tools/downloads/github-release.tar.bz2" \
-    "https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2"
-fi
-
-tar xf "tools/downloads/github-release.tar.bz2" -C tools/cross/bin --strip-components=3
 
 for target in "${targets[@]}" ; do
   gccurl="$musl_cross_make/gcc-${gccver}-${target}.tar.xz"
