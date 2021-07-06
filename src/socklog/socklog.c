@@ -228,6 +228,7 @@ int read_socket (int s) {
     int linec;
     int os;
     
+    if (flag_exitasap) break;
     linec =recvfrom(s, line, LINEC, 0, (struct sockaddr *) &saf, &dummy);
     if (linec == -1) {
       if (errno != EINTR)
